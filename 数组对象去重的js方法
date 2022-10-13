@@ -1,0 +1,90 @@
+方法一：双层for循环
+两两比较，如果后一个对象的id值和前一个对象的id值相等，就把后面的对象删除
+let arrObj = [
+    { name: "小红", id: 1 },
+    { name: "小橙", id: 1 },
+    { name: "小黄", id: 4 },
+    { name: "小绿", id: 3 },
+    { name: "小青", id: 1 },
+    { name: "小蓝", id: 4 }
+];
+function fn1(tempArr) {
+    for (let i = 0; i < tempArr.length; i++) {
+        for (let j = i + 1; j < tempArr.length; j++) {
+            if (tempArr[i].id == tempArr[j].id) {
+                tempArr.splice(j, 1);
+                j--;
+            };
+        };
+    };
+    return tempArr;
+};
+console.log(fn1(arrObj));
+
+方法二：indexOf()
+定义一个数组存储id的值,然后逐个比较,把id值重复的对象删除即可
+let arrObj = [
+    { name: "小红", id: 1 },
+    { name: "小橙", id: 1 },
+    { name: "小黄", id: 4 },
+    { name: "小绿", id: 3 },
+    { name: "小青", id: 1 },
+    { name: "小蓝", id: 4 }
+];
+function fn2(tempArr) {
+    let newArr = [];
+    for (let i = 0; i < tempArr.length; i++) {
+        if (newArr.indexOf(tempArr[i].id) == -1) {
+            newArr.push(tempArr[i].id);
+        } else {
+            tempArr.splice(i, 1);
+        };
+    };
+    return tempArr;
+};
+console.log(fn2(arrObj));
+
+方法三：对象访问属性的方法
+采用对象访问属性的方法，判断属性值是否存在
+let arrObj = [
+    { name: "小红", id: 1 },
+    { name: "小橙", id: 1 },
+    { name: "小黄", id: 4 },
+    { name: "小绿", id: 3 },
+    { name: "小青", id: 1 },
+    { name: "小蓝", id: 4 }
+];
+function fn3(tempArr) {
+    let result = [];
+    let obj = {};
+    for (let i = 0; i < tempArr.length; i++) {
+        if (!obj[tempArr[i].id]) {
+            result.push(tempArr[i]);
+            obj[tempArr[i].id] = true;
+        };
+    };
+    return result;
+};
+console.log(fn3(arrObj));
+
+方法四：Map()
+has方法可以判断Map对象中是否存在指定元素,有则返回true，否则返回false
+set方法可以向Map对象添加新元素 map.set(key, value)
+values方法可以返回Map对象值的遍历器对象
+
+let arrObj = [
+    { name: "小红", id: 1 },
+    { name: "小橙", id: 1 },
+    { name: "小黄", id: 4 },
+    { name: "小绿", id: 3 },
+    { name: "小青", id: 1 },
+    { name: "小蓝", id: 4 }
+];
+let map = new Map();
+for (let item of arrObj) {
+    if (!map.has(item.id)) {
+        map.set(item.id, item);
+    };
+};
+arr = [...map.values()];
+console.log(arr);
